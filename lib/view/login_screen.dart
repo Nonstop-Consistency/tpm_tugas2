@@ -14,14 +14,16 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController =
+      TextEditingController(text: 'aman.aim123@gmail.com');
+  TextEditingController passwordController =
+      TextEditingController(text: '12345678');
   TextEditingController regisEmailController = TextEditingController();
   TextEditingController regisPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   bool _isObscure = true;
-  final bool _isnotObscure = false;
   bool _isObscure2 = true;
+  final bool _isnotObscure = false;
   final bool _isnotObscure2 = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -207,11 +209,12 @@ class _LoginScreenState extends State<LoginScreen>
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
+                border: Border.all(color: Colors.black),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withOpacity(0.85),
                     spreadRadius: 3,
-                    offset: const Offset(0, 4),
+                    offset: const Offset(10, 10),
                   ),
                 ],
               ),
@@ -224,11 +227,11 @@ class _LoginScreenState extends State<LoginScreen>
                     height: 45,
                     width: MediaQuery.of(context).size.width / 1.5,
                     decoration: BoxDecoration(
-                      color: Colors.grey[300],
+                      color: Colors.grey.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(
                         30.0,
                       ),
-                      border: Border.all(color: Colors.grey),
+                      border: Border.all(color: Colors.black),
                     ),
                     child: GestureDetector(
                       onTap: () =>
@@ -310,8 +313,7 @@ class _LoginScreenState extends State<LoginScreen>
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: hexToColor('12731C'),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(30), // <-- Radius
+                                    borderRadius: BorderRadius.circular(30),
                                   ),
                                 ),
                                 onPressed: () {
