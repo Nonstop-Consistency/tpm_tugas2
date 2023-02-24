@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tugas2/utils/formatting.dart';
+
+import 'package:tugas2/view/bottom_navigation.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,6 +21,152 @@ class _LoginScreenState extends State<LoginScreen>
   TextEditingController confirmPasswordController = TextEditingController();
   bool _isObscure = true;
   final bool _isnotObscure = false;
+  bool _isObscure2 = true;
+  final bool _isnotObscure2 = false;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  loginInputHandler() {
+    bool isFilled = true;
+    if (emailController.text == '') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Warning! Email tidak boleh kosong!',
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          width: 300,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      isFilled = false;
+    } else if (passwordController.text == '') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Warning! Password tidak boleh kosong!',
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          width: 300,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else if (!RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(emailController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Warning! Isi email dengan benar!',
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          width: 300,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      isFilled = false;
+    } else if (passwordController.text.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Warning! Password kurang dari 8 karakter!',
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          width: 300,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      isFilled = false;
+    }
+    return isFilled;
+  }
+
+  registerInputHandler() {
+    bool isFilled = true;
+    if (regisEmailController.text == '') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Warning! Email tidak boleh kosong!',
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          width: 300,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      isFilled = false;
+    } else if (regisPasswordController.text == '') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Warning! Password tidak boleh kosong!',
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          width: 300,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else if (confirmPasswordController.text == '') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Warning! Konfirmasi password tidak boleh kosong!',
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          width: 300,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else if (!RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(regisEmailController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Warning! Isi email dengan benar!',
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          width: 300,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      isFilled = false;
+    } else if (regisPasswordController.text.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Warning! Password kurang dari 8 karakter!',
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          width: 300,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      isFilled = false;
+    } else if (confirmPasswordController.text != regisPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Warning! Konfirmasi password harus sama',
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          width: 300,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      isFilled = false;
+    }
+    return isFilled;
+  }
 
   @override
   void initState() {
@@ -25,6 +174,11 @@ class _LoginScreenState extends State<LoginScreen>
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) {
         FocusManager.instance.primaryFocus?.unfocus();
+        emailController.text = '';
+        passwordController.text = '';
+        regisEmailController.text = '';
+        regisPasswordController.text = '';
+        confirmPasswordController.text = '';
       }
     });
     super.initState();
@@ -41,6 +195,7 @@ class _LoginScreenState extends State<LoginScreen>
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        key: _scaffoldKey,
         body: Container(
           decoration: BoxDecoration(
             color: hexToColor('12731C'),
@@ -159,7 +314,14 @@ class _LoginScreenState extends State<LoginScreen>
                                         BorderRadius.circular(30), // <-- Radius
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  if (loginInputHandler()) {
+                                    logIn(
+                                      emailController.text,
+                                      passwordController.text,
+                                    );
+                                  }
+                                },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
                                   alignment: Alignment.center,
@@ -226,25 +388,26 @@ class _LoginScreenState extends State<LoginScreen>
                               TextFormField(
                                 controller: confirmPasswordController,
                                 decoration: InputDecoration(
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: hexToColor('12731C'),
-                                      ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: hexToColor('12731C'),
                                     ),
-                                    hintText: 'Enter Confirm Password',
-                                    suffixIcon: IconButton(
-                                      color: Colors.grey,
-                                      icon: Icon(_isObscure
-                                          ? Icons.visibility
-                                          : Icons.visibility_off),
-                                      onPressed: () {
-                                        setState(() {
-                                          _isObscure = !_isObscure;
-                                        });
-                                      },
-                                    )),
+                                  ),
+                                  hintText: 'Enter Confirm Password',
+                                  suffixIcon: IconButton(
+                                    color: Colors.grey,
+                                    icon: Icon(_isObscure2
+                                        ? Icons.visibility
+                                        : Icons.visibility_off),
+                                    onPressed: () {
+                                      setState(() {
+                                        _isObscure2 = !_isObscure2;
+                                      });
+                                    },
+                                  ),
+                                ),
                                 obscureText:
-                                    _isObscure ? _isObscure : _isnotObscure,
+                                    _isObscure2 ? _isObscure2 : _isnotObscure2,
                               ),
                               const SizedBox(
                                 height: 50,
@@ -257,7 +420,14 @@ class _LoginScreenState extends State<LoginScreen>
                                         BorderRadius.circular(30), // <-- Radius
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  if (registerInputHandler()) {
+                                    register(
+                                      regisEmailController.text,
+                                      confirmPasswordController.text,
+                                    );
+                                  }
+                                },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
                                   alignment: Alignment.center,
@@ -283,5 +453,85 @@ class _LoginScreenState extends State<LoginScreen>
         ),
       ),
     );
+  }
+
+  void logIn(String email, String password) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: email,
+            password: password,
+          )
+          .whenComplete(
+            () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const BottomNavigation(),
+              ),
+            ),
+          );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            e.code,
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          width: 300,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  void register(String email, String password) async {
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      )
+          .whenComplete(
+        () async {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Register Berhasil',
+                textAlign: TextAlign.center,
+              ),
+              behavior: SnackBarBehavior.floating,
+              width: 300,
+              duration: Duration(seconds: 2),
+            ),
+          );
+          await FirebaseAuth.instance
+              .signInWithEmailAndPassword(
+                email: email,
+                password: password,
+              )
+              .whenComplete(
+                () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BottomNavigation(),
+                  ),
+                ),
+              );
+        },
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            e.code,
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          width: 300,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
   }
 }
