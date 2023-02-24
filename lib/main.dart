@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tugas2/utils/formatting.dart';
 import 'package:tugas2/view/login_screen.dart';
 
 void main() {
@@ -8,11 +9,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      color: hexToColor('FFB800'),
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
