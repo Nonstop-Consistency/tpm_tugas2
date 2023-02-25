@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class DataMemberScreen extends StatefulWidget {
   const DataMemberScreen({super.key});
@@ -10,11 +8,105 @@ class DataMemberScreen extends StatefulWidget {
 }
 
 class DataMemberScreenState extends State<DataMemberScreen> {
+  final listMember = {
+    "member": [
+      {
+        'fotoProfil': 'assets/images/ImanAbdurrahman.jpg',
+        "nama": "Iman Abdurrahman",
+        "nim": "123200167",
+        'kelas': 'IF-A',
+      },
+      {
+        'fotoProfil': '',
+        'nama': 'Member 2',
+        'nim': 'NIM Member 2',
+        'kelas': 'Kelas Member 2',
+      },
+      {
+        'fotoProfil': '',
+        'nama': 'Member 3',
+        'nim': 'NIM Member 3',
+        'kelas': 'Kelas Member 3',
+      }
+    ]
+  };
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('DataMemberScreen'),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(12),
+        itemBuilder: (context, index) {
+          return Card(
+            elevation: 20,
+            shadowColor: Colors.grey,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Container(
+              height: 200,
+              padding: const EdgeInsets.all(12),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: 130,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Image.asset(
+                        '${listMember['member']![index]['fotoProfil']}',
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Icon(
+                            Icons.person,
+                            size: 90,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${listMember['member']![index]['nama']}',
+                        style: const TextStyle(fontSize: 20),
+                        maxLines: 1,
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        '${listMember['member']![index]['nim']}',
+                        style: const TextStyle(fontSize: 20),
+                        maxLines: 1,
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        '${listMember['member']![index]['kelas']}',
+                        style: const TextStyle(fontSize: 20),
+                        maxLines: 1,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+        separatorBuilder: (context, index) => const SizedBox(
+          height: 12,
+        ),
+        itemCount: listMember['member']!.length,
       ),
     );
   }
