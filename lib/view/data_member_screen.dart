@@ -18,15 +18,15 @@ class DataMemberScreenState extends State<DataMemberScreen> {
       },
       {
         'fotoProfil': '',
-        'nama': 'Member 2',
-        'nim': 'NIM Member 2',
-        'kelas': 'Kelas Member 2',
+        'nama': 'Ryzal Fadhillah',
+        'nim': '123200053',
+        'kelas': 'IF-A',
       },
       {
         'fotoProfil': '',
-        'nama': 'Member 3',
-        'nim': 'NIM Member 3',
-        'kelas': 'Kelas Member 3',
+        'nama': 'Freshley Grisyuan Surya Kolim',
+        'nim': '123200034',
+        'kelas': 'IF-A',
       }
     ]
   };
@@ -71,32 +71,35 @@ class DataMemberScreenState extends State<DataMemberScreen> {
                   const SizedBox(
                     width: 30,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${listMember['member']![index]['nama']}',
-                        style: const TextStyle(fontSize: 20),
-                        maxLines: 1,
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Text(
-                        '${listMember['member']![index]['nim']}',
-                        style: const TextStyle(fontSize: 20),
-                        maxLines: 1,
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Text(
-                        '${listMember['member']![index]['kelas']}',
-                        style: const TextStyle(fontSize: 20),
-                        maxLines: 1,
-                      ),
-                    ],
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          overflow: TextOverflow.ellipsis,
+                          '${listMember['member']![index]['nama']}',
+                          style: const TextStyle(fontSize: 20),
+                          maxLines: 1,
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Text(
+                          '${listMember['member']![index]['nim']}',
+                          style: const TextStyle(fontSize: 20),
+                          maxLines: 1,
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Text(
+                          '${listMember['member']![index]['kelas']}',
+                          style: const TextStyle(fontSize: 20),
+                          maxLines: 1,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
