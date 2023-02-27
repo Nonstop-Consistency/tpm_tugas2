@@ -77,7 +77,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                           setState(() {
                             operator = '/';
                             setState(() {
-                              enteredText += '/';
+                              enteredText += ' / ';
                             });
                           });
                         },
@@ -120,7 +120,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         () {
                           operator = '*';
                           setState(() {
-                            enteredText += '*';
+                            enteredText += ' * ';
                           });
                         },
                         Colors.black,
@@ -162,7 +162,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         () {
                           operator = '+';
                           setState(() {
-                            enteredText += '+';
+                            enteredText += ' + ';
                           });
                         },
                         Colors.black,
@@ -193,38 +193,35 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       buttonWidget(
                         '=',
                         () {
-                          List myList = enteredText.split(operator);
-                          double number1 = double.parse(myList[0]);
-                          double number2 = double.parse(myList[1]);
-                          switch (operator) {
-                            case '+':
-                              {
-                                result = number1 + number2;
-                                break;
+                          List myList = enteredText.split(' ');
+                          for (var i = 0; i < myList.length; i++) {
+                            if (myList[i] == '+') {
+                              if (result == 0) {
+                                result = double.parse(myList[i - 1]);
                               }
-                            case '-':
-                              {
-                                result = number1 - number2;
-                                break;
+                              result = result + double.parse(myList[i + 1]);
+                            } else if (myList[i] == '-') {
+                              if (result == 0) {
+                                result = double.parse(myList[i - 1]);
                               }
-                            case '*':
-                              {
-                                result = number1 * number2;
-                                break;
+                              result = result - double.parse(myList[i + 1]);
+                            } else if (myList[i] == '/') {
+                              if (result == 0) {
+                                result = double.parse(myList[i - 1]);
                               }
-                            case '/':
-                              {
-                                result = number1 / number2;
-                                break;
+                              result = result / double.parse(myList[i + 1]);
+                            } else if (myList[i] == '*') {
+                              if (result == 0) {
+                                result = double.parse(myList[i - 1]);
                               }
-                            case '%':
-                              {
-                                result = number1 % number2;
-                                break;
-                              }
+                              result = result * double.parse(myList[i + 1]);
+                            }
                           }
                           setState(() {
-                            enteredText = result.toString();
+                            RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+                            enteredText =
+                                result.toString().replaceAll(regex, '');
+                            result = 0;
                           });
                         },
                         Colors.black,
@@ -234,7 +231,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         () {
                           operator = '-';
                           setState(() {
-                            enteredText += '-';
+                            enteredText += ' - ';
                           });
                         },
                         Colors.black,
