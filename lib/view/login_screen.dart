@@ -209,7 +209,10 @@ class _LoginScreenState extends State<LoginScreen>
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
-                border: Border.all(color: Colors.black),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1.5,
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.85),
